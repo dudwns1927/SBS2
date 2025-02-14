@@ -16,7 +16,7 @@ private:
         Node* next;
     };
 
-    Node* head;    
+    Node* head;
 
 public:
 
@@ -47,7 +47,7 @@ public:
     void push_front(T data)
     {
         Node* newNode = new Node;
-        
+
         if (head == nullptr)
         {
             head = newNode;
@@ -57,10 +57,17 @@ public:
         }
         else
         {
-            newNode->data = data;
-            newNode->next = head;
+            Node* currentNode = head;
 
-            head = newNode;
+            while (currentNode->next != nullptr)
+            {
+                currentNode = currentNode->next;
+            }
+
+            currentNode->next = newNode;
+
+            newNode->data = data;
+            newNode->next = nullptr;
         }
 
         size++;
@@ -69,7 +76,7 @@ public:
     void push_back(T data)
     {
         Node* newNode = new Node;
-        
+
         if (head == nullptr)
         {
             head = newNode;
@@ -80,16 +87,34 @@ public:
 
     }
 
-    void printList() const
+    void pop_front(T data)
+    {
+        if (head == nullptr)
+        {
+            cout << "Linked List is Empty" << endl;
+        }
+        else
+        {
+            Node* deleteNode = head;
+            head = deleteNode->next;
+            delete deleteNode;
+            size--;
+        }
+    }
+
+    void show(T data)
     {
         Node* currentNode = head;
+
         while (currentNode != nullptr)
         {
             cout << currentNode->data << " ";
+
             currentNode = currentNode->next;
         }
-        cout << endl;
     }
+
+    
 };
 
 
@@ -101,13 +126,11 @@ int main()
 
     slngleLinkedList.push_front(10);
     slngleLinkedList.push_front(20);
-
     slngleLinkedList.push_back(10);
     slngleLinkedList.push_back(20);
 
-    cout << "List: ";  slngleLinkedList.printList();
-    cout << "Size: " << slngleLinkedList.getsize() << endl;
-    
+    slngleLinkedList.show();
+
 
     return 0;
 }
