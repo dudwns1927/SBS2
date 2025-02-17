@@ -5,44 +5,38 @@ using namespace std;
 
 template<typename T>
 
-class SingleLinkedList
-{
 
+class DoubleLinkedList
+{
 private:
     int size;
     struct Node
     {
         T data;
         Node* next;
+        Node* previous;
     };
 
     Node* head;
+    Node* tail;
 
 public:
-
-    SingleLinkedList()
+    DoubleLinkedList()
     {
         size = 0;
         head = nullptr;
+        tail = nullptr;
     }
 
-
-    ~SingleLinkedList()
+    ~DoubleLinkedList()
     {
-        Node* current = head;
-        while (current != nullptr)
-        {
-            Node* temp = current;
-            current = current->next;
-            delete temp;
-        }
+
     }
 
     int getsize() const
     {
         return size;
     }
-
 
     void push_front(T data)
     {
@@ -55,9 +49,17 @@ public:
             newNode->data = data;
             newNode->next = nullptr; //시작주소를 가리킨다.
         }
+        else if (tail == nullptr)
+        {
+            tail = newNode;
+
+            newNode->data = data;
+            newNode->next = nullptr;
+        }
         else
         {
             Node* currentNode = head;
+            Node* currentNode = tail;
 
             while (currentNode->next != nullptr)
             {
@@ -72,64 +74,19 @@ public:
 
         size++;
     }
-
-    void push_back(T data)
-    {
-        Node* newNode = new Node;
-
-        if (head == nullptr)
-        {
-            head = newNode;
-
-            newNode->data = data;
-            newNode->next = nullptr;
-        }
-
-    }
-
-    void pop_front(T data)
-    {
-        if (head == nullptr)
-        {
-            cout << "Linked List is Empty" << endl;
-        }
-        else
-        {
-            Node* deleteNode = head;
-            head = deleteNode->next;
-            delete deleteNode;
-            size--;
-        }
-    }
-
-    void show(T data)
-    {
-        Node* currentNode = head;
-
-        while (currentNode != nullptr)
-        {
-            cout << currentNode->data << " ";
-
-            currentNode = currentNode->next;
-        }
-    }
-
-    
 };
+
+
 
 
 
 
 int main()
 {
-    SingleLinkedList<int> slngleLinkedList;
+    DoubleLinkedList<int> doubleLinkedList;
 
-    slngleLinkedList.push_front(10);
-    slngleLinkedList.push_front(20);
-    slngleLinkedList.push_back(10);
-    slngleLinkedList.push_back(20);
-
-    slngleLinkedList.show();
+    doubleLinkedList.push_front(10);
+    doubleLinkedList.push_front(20);
 
 
     return 0;
