@@ -3,74 +3,27 @@
 
 using namespace std;
 
-template<typename T>
+template <typename T>
 
 
-class DoubleLinkedList
+
+class CircleLinkedList
 {
 private:
-    int size;
-    struct Node
+    struct Node 
     {
         T data;
         Node* next;
-        Node* previous;
     };
 
+    int size;
     Node* head;
-    Node* tail;
 
 public:
-    DoubleLinkedList()
+    CircleLinkedList() 
     {
         size = 0;
         head = nullptr;
-        tail = nullptr;
-    }
-
-    ~DoubleLinkedList()
-    {
-        Node* current = head, tail;
-        
-        while (current != nullptr)
-        {
-            Node* temp = current;
-            current = current->next;
-            delete temp;
-        }
-    }
-
-    /*
-    ~DoubleLinkedList()
-    {    
-        while (head != nullptr)
-        {
-            pop_front()
-        }
-    }*/
-
-    void push_front(T data)
-    {
-        Node* newNode = new Node;
-
-        newNode->data = data;
-        newNode->next = nullptr;
-        newNode->previous = nullptr;
-
-        if (head == nullptr)
-        {
-            head = newNode;
-            tail = newNode;
-        }
-        else 
-        {
-            head->previous = newNode;
-            newNode->next = head;
-
-            head = newNode;
-        }
-
-        size++;
     }
 
     void push_back(T data)
@@ -78,24 +31,23 @@ public:
         Node* newNode = new Node;
 
         newNode->data = data;
-        newNode->next = nullptr;
-        newNode->previous = nullptr;
 
-        if (tail == nullptr)
+        if (head == nullptr)
         {
             head = newNode;
-            tail = newNode;
+            newNode->next = head;
         }
         else
-        {
-            tail->next - newNode;
-            newNode->previous = tail;
-            
-            tail = newNode;
-        }
+        {        
+            newNode->next = head->next;
 
+            head->next = newNode;
+
+            head = newNode;
+        }
         size++;
     }
+
 
     void show()
     {
@@ -108,63 +60,17 @@ public:
             currentNode = currentNode->next;
         }
     }
-
-
-    void pop_front()
-    {
-        if (head == nullptr)
-        {
-            cout << "Linked List is Empty" << endl;
-        }
-        else
-        {
-            Node* deleteNode = head;
-
-            if (head == tail)
-            {
-                head = nullptr;
-                tail = nullptr;
-            }
-            else
-            {
-                deleteNode->next->previous = nullptr;
-
-                head = head->next;
-            }
-
-            delete deleteNode;
-
-            size--;
-        }
-    }
-
 };
-
-
-
-
-
 
 int main()
 {
-    DoubleLinkedList<int> doubleLinkedList;
+    CircleLinkedList<int> circleLinkedList;
 
-    doubleLinkedList.push_front(30);
-    doubleLinkedList.push_front(20);
-    doubleLinkedList.push_front(10);
+    circleLinkedList.push_back(10);
+    circleLinkedList.push_back(20);
+    circleLinkedList.push_back(30);
 
-    doubleLinkedList.pop_front();
-    doubleLinkedList.pop_front();
-    doubleLinkedList.pop_front();
-    doubleLinkedList.pop_front();
-
-    doubleLinkedList.push_back(10);
-    doubleLinkedList.push_back(20);
-    doubleLinkedList.push_back(30);
-    
-
-    doubleLinkedList.show();
-
+    circleLinkedList.show();
 
     return 0;
 }
