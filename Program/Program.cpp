@@ -26,6 +26,15 @@ public:
         head = nullptr;
     }
 
+
+    ~CircleLinkedList()
+    {
+        while (head != nullptr)
+        {
+            pop_front();
+        }
+    }
+
     void push_back(T data)
     {
         Node* newNode = new Node;
@@ -48,18 +57,79 @@ public:
         size++;
     }
 
+    void push_front(T data)
+    {
+        Node* newNode = new Node;
+
+        newNode->data = data;        
+
+        if (head == nullptr)
+        {
+            head = newNode;    
+
+            newNode->next = head;
+        }
+        else
+        {
+            newNode->next = head->next;            
+
+            head->next = newNode;
+        }
+
+        size++;
+    }
+
+    void pop_back()
+    {
+
+    }
+
+    void pop_front()
+    {
+        if (head == nullptr)
+        {
+            cout << "Linked List is Empty" << endl;
+        }
+        else
+        {          
+            Node* deleteNode = head->next;
+
+            if (head == head->next)
+            {
+                head = nullptr;
+            }
+            else
+            {
+                head->next = deleteNode->next;
+            }
+            
+            size--;
+        }
+        
+
+    }
 
     void show()
     {
-        Node* currentNode = head;
-
-        while (currentNode != nullptr)
+        if (head != nullptr)
         {
-            cout << currentNode->data << " ";
+            Node* currentNode = head->next;
 
-            currentNode = currentNode->next;
-        }
+            for (int i = 0; i < size; i++)
+            {
+                cout << currentNode->data << " ";
+
+                currentNode = currentNode->next;
+            }
+        }       
     }
+
+
+    const int& Size()
+    {
+        return size;
+    }
+
 };
 
 int main()
@@ -70,6 +140,14 @@ int main()
     circleLinkedList.push_back(20);
     circleLinkedList.push_back(30);
 
+    circleLinkedList.push_front(5);
+    circleLinkedList.push_front(1);
+
+    //circleLinkedList.pop_front();
+    //circleLinkedList.pop_front();
+
+    
+    
     circleLinkedList.show();
 
     return 0;

@@ -1,16 +1,2 @@
 ﻿  Program.cpp
-C:\Users\Administrator\Desktop\SBS2\Program\Program.cpp(85,24): warning C4552: '/': 식의 결과가 사용되지 않습니다.
-  C:\Users\Administrator\Desktop\SBS2\Program\Program.cpp(85,24):
-  템플릿 인스턴스화 컨텍스트(가장 오래된 인스턴스화 컨텍스트)가
-  	C:\Users\Administrator\Desktop\SBS2\Program\Program.cpp(151,27):
-  	컴파일되는 클래스 템플릿 인스턴스화 'DoubleLinkedList<int>'에 대한 참조를 확인하세요.
-  	C:\Users\Administrator\Desktop\SBS2\Program\Program.cpp(70,10):
-  	클래스 템플릿 멤버 함수 'void DoubleLinkedList<int>::push_back(T)'을(를) 컴파일하는 중입니다.
-          with
-          [
-              T=int
-          ]
-  		C:\Users\Administrator\Desktop\SBS2\Program\Program.cpp(162,31):
-  		'main'에서 'DoubleLinkedList<int>::push_back'에 대한 첫 번째 참조를 확인하세요.
-  
   Program.vcxproj -> C:\Users\Administrator\Desktop\SBS2\Program\x64\Debug\Program.exe
