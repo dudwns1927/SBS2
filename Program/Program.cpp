@@ -74,7 +74,7 @@ public:
         }
     }
 
-    int Size() const
+    const int Size() const
     {     
         return size - 1;
     }
@@ -82,15 +82,6 @@ public:
     const char& operator [] (const int& index)
     {
         return pointer[index];
-    }
-
-    char& operator[](int index)
-    {
-        if (index >= 0 && index < size - 1)  // NULL 문자를 제외한 인덱스를 처리
-        {
-            return pointer[index];
-        }
-        throw out_of_range("Index out of range");
     }
 
    void print() const
@@ -103,6 +94,36 @@ public:
        {
            cout << "Empty String" << endl;
        }
+   }
+
+   void Append(const char* word)
+   {
+       int resize = size;
+
+       size = size + strlen(word) + 1;
+
+       char* newPointer = new char[size];
+
+       for (int i = 0; i < resize; i++)
+       {
+           newPointer[i] = pointer[i];
+       }
+
+       for (int i = 0; i < strlen(word) + 1; i++)
+       {
+           newPointer[resize + i] = word[i];
+       }
+       
+       if (pointer != nullptr)
+       {
+           delete[] pointer;
+       }
+       pointer = newPointer;      
+   }
+
+   long long Find(const char* word)
+   {
+
    }
 };
 
@@ -126,7 +147,25 @@ int main()
     {
         cout << string[i];        
     }
+
+    cout << endl;
+
     
+
+    string.Append(" Four");
+    string.Append(" x");
+
+    for (int i = 0; i < string.Size(); i++)
+    {
+        cout << string[i];
+    }
+
+    cout << endl;
+    cout << "string Size : " << string.Size() << endl;
+
+    std::string name;
+    name = "Alistar";
+    cout << name.find("ar");
 
     return 0;
 }
