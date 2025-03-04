@@ -1,33 +1,29 @@
-﻿
-#include <iostream>
-#include <cstring>
+﻿#include <iostream>
+
 #define SIZE 6
 
 using namespace std;
 
-
-template <typename KEY, typename VALUE>
-
+template<typename KEY, typename VALUE>
 class HashTable
 {
 private:
-    struct node
+    struct Node
     {
-        KEY key;;
+        KEY key;
         VALUE value;
 
-        node* next;
+        Node* next;
     };
 
     struct Bucket
     {
         int count;
-        node* head;
+        Node* head;
     };
 
     Bucket bucket[SIZE];
-
-public:    
+public:
     HashTable()
     {
         for (int i = 0; i < SIZE; i++)
@@ -36,18 +32,42 @@ public:
             bucket[i].head = nullptr;
         }
     }
-    
-    template<typename T>
-    int HashFuction(T key)
+
+    ~HashTable()
+    {
+        for (int i = 0; i < SIZE; i++)
+        {
+            Node* deleteNode = bucket[i].head;
+            Node* nextNode = bucket[i].head;
+
+            if (bucket[i].head == nullptr)
+            {
+                continue;
+            }
+            else
+            {
+                while (nextNode != nullptr)
+                {
+                    nextNode = deleteNode->next;
+
+                    delete deleteNode;
+
+                    deleteNode = nextNode;
+                }
+            }
+        }
+    }
+
+    template <typename T>
+    const int& HashFunction(T key)
     {
         unsigned int hashIndex = (int)key % SIZE;
-
 
         return hashIndex;
     }
 
     template<>
-    const int& HashFuction(const char* key)
+    const int& HashFunction(const char* key)
     {
         int hash = 0;
 
@@ -60,11 +80,50 @@ public:
 
         return hashIndex;
     }
+
+    Node* CreateNode(KEY key, VALUE value)
+    {
+        Node* newNode = new Node;
+
+        newNode->key = key;
+        newNode->value = value;
+        newNode->next = nullptr;
+
+        return newNode;
+    }
+
+    void Insert(KEY key, VALUE value)
+    {
+        // 해시 함수를 통해서 값을 받는 임시 변수
+        int hashIndex = HashFunction(key);
+
+        // 새로운 노드를 생성합니다.
+        Node* newNode = CreateNode(key, value);
+
+        // 노드가 1개라도 존재하지 않는다면
+        if (bucket[hashIndex].count == 0)
+        {
+            // bucket[hashIndex]의 head 포인터가 newNode를 가리키게 합니다. 
+            bucket[hashIndex].head = newNode;
+        }
+        else
+        {
+            newNode->next = bucket[hashIndex].head;
+
+            bucket[hashIndex].head = newNode;
+        }
+
+        // bucket[hashIndex]의 count를 증가시킵니다.
+        bucket[hashIndex].count++;
+    }
 };
 
 int main()
 {
-    
+    HashTable<const char*, int> hashTable;
+
+    hashTable.Insert("Sword", 10000);
+    hashTable.Insert("Armor", 5000);
 
     return 0;
 }
