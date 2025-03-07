@@ -1,173 +1,93 @@
 ﻿#include <iostream>
 #include <queue>
 
-#define SIZE 8
+#define SIZE 3
 
 using namespace std;
 
 template<typename T>
 
 
-class PriorityQueue
+class AdjacencyMatrix
 {
 private:
-    int index;
-    T container[SIZE];
+    int size; // 정점의 개수
+    T vertex[SIZE]; // 정점의 집합
+    int matrix[SIZE][SIZE]; // 인접 행렬
 
 public:
-    PriorityQueue()
+    AdjacencyMatrix()
     {
-        index = 0;
+        size = 0;
 
         for (int i = 0; i < SIZE; i++)
         {
-            container[i] = NULL;
+            vertex[i] = NULL;
+
+            for (int j = 0; j < SIZE; j++)
+            {
+                matrix[i][j] = 0;
+            }
         }
-    }
-
-    ~PriorityQueue()
-    {
-
     }
 
     void push(T data)
     {
-        if (index + 1 >= SIZE)
+        if (size >= SIZE)
         {
-            cout << "priorityz" << endl;
-
+            cout << "Adjacency Matrix Overflow" << endl;
         }
-
         else
         {
+            vertex[size++] = data;
+        }
+    }
 
-            container[++index] = data;
-
-            int child = index;
-            int parent = child / 2;
-
-            while (child > 1)
+    void edge(int i, int j)
+    {
+        if (size <= 0)
+        {
+            cout << "Adjacency Matrix is Empty" << endl;
+        } 
+        else if (i >= size || j >= size)
+        {
+            cout << " Index Out of Range" << endl;
+        }
+        else
+        {
+            matrix[i][j] = 1;
+            matrix[j][i] = 1;
+        }
+    } 
+    void show()
+    {
+        for (int i = 0; i < SIZE; i++)
+        {
+            for (int j = 0; j < SIZE; j++)
             {
-                if (container[parent] < container[child])
-                {
-                    std::swap(container[parent], container[child]);
-                    
-                }
-                child = parent;
-                parent = child / 2;
+                cout << matrix[i][j] << " ";
             }
-
-        }
-    }
-
-    const T& top()
-    {
-        return container[1];
-    }
-
-    void pop()
-    {
-        if (index <= 0)
-        {
-            cout << "Priority Queue is Empty" << endl;
-        }
-        else
-        {
-            container[1] = container[index];
-
-            container[index--] = NULL;
-
-            int parent = 1;
-            
-            while (parent * 2 <= index)
-            {
-                int child = parent * 2;
-
-                if (container[child] < container[child + 1])
-                {
-                    child++;
-                }
-                if (container[child] < container[parent])
-                {
-                    break;
-                }
-
-                else
-                {
-                    std::swap(container[parent], container[child]);
-
-                    parent = child;                    
-                }
-            }
-        }
-    }
-    const bool empty()
-    {
-        if (index <= 0)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
+            cout << endl;
         }
     }
 };
 
 int main()
 {
+    AdjacencyMatrix<int> adjacencyMatrix;
+
  
 
-    PriorityQueue<int> priorityQueue;
+    adjacencyMatrix.push('A');
+    adjacencyMatrix.push('B');
+    adjacencyMatrix.push('C');
 
-    // 우선순위 큐에 데이터 추가
-    priorityQueue.push(10);
-    priorityQueue.push(20);
-    priorityQueue.push(15);
-    priorityQueue.push(30);
-    priorityQueue.push(5);
+    adjacencyMatrix.edge(0, 1);
+    adjacencyMatrix.edge(1, 2);
+    adjacencyMatrix.edge(2, 0);
 
+    adjacencyMatrix.show();
 
-    while (priorityQueue.empty() == false)
-    {
-        cout << priorityQueue.top() << endl;
-
-        priorityQueue.pop();
-    }
-
-    /*
-    // 가장 큰 값 출력
-    cout << "Top element: " << priorityQueue.top() << endl; // 30
-
-    // pop해서 가장 큰 값 제거
-    priorityQueue.pop();
-
-    // 새로운 top 출력
-    cout << "Top element after pop: " << priorityQueue.top() << endl; // 20
-
-    // 큐가 비어있는지 확인
-    cout << "Is the queue empty? " << (priorityQueue.empty() ? "Yes" : "No") << endl;
-    */
-
-    /*
-    priorityQueue.push(30);
-    priorityQueue.push(2);
-    priorityQueue.push(77);
-    priorityQueue.push(15);
-    
-    int size = priorityQueue.size();  
-    for (int i = 0; i < size; ++i) {
-        std::cout << priorityQueue.top() << std::endl;
-        priorityQueue.pop(); 
-    }
-    
-    while (priorityQueue.empty() == false)
-    {
-        cout << priorityQueue.top() << endl;
-    
-        priorityQueue.pop();
-    }
-    */
 
     return 0;
 }
