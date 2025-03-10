@@ -1,93 +1,82 @@
 ﻿#include <iostream>
 #include <queue>
 
-#define SIZE 3
+#define SIZE 10
 
 using namespace std;
 
-template<typename T>
+template <typename T>
 
-
-class AdjacencyMatrix
+class AdjacencyList
 {
 private:
+    struct Node
+    {
+        T data;
+        Node* next;
+
+        Node(T data, Node* link = nullptr)
+        {
+            this->data = data;
+            next = link;
+        }
+    };
+
     int size; // 정점의 개수
     T vertex[SIZE]; // 정점의 집합
-    int matrix[SIZE][SIZE]; // 인접 행렬
+    Node* list[SIZE]; // 인접 리스트
 
 public:
-    AdjacencyMatrix()
+    AdjacencyList()
     {
         size = 0;
-
         for (int i = 0; i < SIZE; i++)
         {
+            list[i] = NULL;
             vertex[i] = NULL;
+        }
+    }
 
-            for (int j = 0; j < SIZE; j++)
+    ~AdjacencyList() {
+        for (int i = 0; i < size; i++)
+        {
+            if (list[i] != nullptr)
             {
-                matrix[i][j] = 0;
+                delete[] list[i];
             }
         }
     }
 
-    void push(T data)
-    {
-        if (size >= SIZE)
-        {
-            cout << "Adjacency Matrix Overflow" << endl;
+    void push(T data) {
+        if (size >= SIZE) {
+            cout << "Adjacency List Overflow" << endl;            
         }
         else
         {
-            vertex[size++] = data;
-        }
+            vertex[size] = data;
+        }       
     }
 
-    void edge(int i, int j)
-    {
-        if (size <= 0)
+    void edge(int i, int j) {
+        if (size <= 0) 
         {
-            cout << "Adjacency Matrix is Empty" << endl;
-        } 
+            cout << "Adjacency List is Empty" << endl;
+        }
         else if (i >= size || j >= size)
         {
-            cout << " Index Out of Range" << endl;
+            cout << "Index Out of Range" << endl;
         }
         else
         {
-            matrix[i][j] = 1;
-            matrix[j][i] = 1;
+            list[i] = new Node(vertex[j], list[i]);
+            list[j] = new Node(vertex[i], list[j]);
         }
-    } 
-    void show()
-    {
-        for (int i = 0; i < SIZE; i++)
-        {
-            for (int j = 0; j < SIZE; j++)
-            {
-                cout << matrix[i][j] << " ";
-            }
-            cout << endl;
-        }
+
     }
+    
 };
 
 int main()
 {
-    AdjacencyMatrix<int> adjacencyMatrix;
 
- 
-
-    adjacencyMatrix.push('A');
-    adjacencyMatrix.push('B');
-    adjacencyMatrix.push('C');
-
-    adjacencyMatrix.edge(0, 1);
-    adjacencyMatrix.edge(1, 2);
-    adjacencyMatrix.edge(2, 0);
-
-    adjacencyMatrix.show();
-
-
-    return 0;
 }
